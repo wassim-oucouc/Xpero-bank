@@ -13,6 +13,7 @@ public interface AccountRepository {
     public void addMoney(String account_id, BigDecimal amount);
     public void closeAccount(String account_id);
     public BigDecimal GetBalanceAccountById(String account_id);
+    public void subMoney(String account_id,BigDecimal amount);
 
 
 }

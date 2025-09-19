@@ -27,15 +27,15 @@ public class InMemoryAccountRepository  implements AccountRepository {
     }
 
     public void addMoney(String account_id, BigDecimal amount) {
-        for (Account account : accounts) {
-            if (Objects.equals(account.getAccountId(), account_id)) {
+        for (Account account : accounts){
+            if(Objects.equals(account.getAccountId(), account_id)){
                 account.addBalance(amount);
             }
         }
     }
 
-    public void closeAccount(String account_id) {
-        for (Account account : accounts) {
+    public void closeAccount(String account_id){
+        for (Account account : accounts){
             if (Objects.equals(account.getAccountId(), account_id)) {
                 account.setActive(false);
             }
@@ -43,11 +43,23 @@ public class InMemoryAccountRepository  implements AccountRepository {
     }
 
     public BigDecimal GetBalanceAccountById(String account_id) {
-        for (Account account : accounts) {
+        for (Account account : accounts){
             if (Objects.equals(account.getAccountId(), account_id)) {
                this.soldeCheck =  account.getBalance();
             }
         }
         return this.soldeCheck;
+    }
+
+    public void subMoney(String account_id,BigDecimal amount)
+    {
+        for(Account account : accounts)
+        {
+            if(Objects.equals(account.getAccountId(),account_id))
+            {
+                account.subBalance(amount);
+
+            }
+        }
     }
 }

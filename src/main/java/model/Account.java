@@ -42,7 +42,12 @@ public class Account {
     }
     public void addBalance(BigDecimal amount)
     {
-        this.balance.add(amount);
+        this.balance = this.balance.add(amount);
+    }
+
+    public void subBalance(BigDecimal amount)
+    {
+        this.balance = this.balance.subtract(amount);
     }
 
     public void setOwnerUserId(UUID ownerUserId) {

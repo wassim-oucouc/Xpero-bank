@@ -112,7 +112,7 @@ public class AppConsole {
             inputPasswordLogin = new Scanner(System.in).nextLine();
             login = authService.LoginUser(inputEmailLogin, inputPasswordLogin);
             System.out.println(login);
-        } while (login.equals("Email or Password incorrect") || login.equals("User Not Exists"));
+        } while(login.equals("Email or Password incorrect") || login.equals("User Not Exists"));
         User userLogged = authService.GetUserByEmail(inputEmailLogin);
         UUID session_id = UUID.randomUUID();
         Session session = new Session(session_id, userLogged.getId(), userLogged.getEmail(), LocalDateTime.now(), LocalDateTime.now(), true);
@@ -151,6 +151,10 @@ public class AppConsole {
                     break;
                 case 3:
                     this.depotArgent();
+                    break;
+                case 4 :
+                    this.RetraitArgent();
+                    break;
                 case 6:
                     this.getTransactionsHistory(userLogged.getId());
                     break;
@@ -186,9 +190,9 @@ public class AppConsole {
         System.out.println("==========================================");
         System.out.println("           LISTE DE VOS COMPTES         ");
         System.out.println("==========================================");
+        System.out.printf("%-15s %-15s %-20s %-10s%n",
+                "Numero Compte", "Balance", "Date de création", "Actif");
         for (Account accountUser : accountsUser) {
-            System.out.printf("%-15s %-15s %-20s %-10s%n",
-                    "Numero Compte", "Balance", "Date de création", "Actif");
             System.out.println("---------------------------------------------------------------");
             System.out.printf("%-15s %-15.2f %-20s %-10s%n",
                     accountUser.getAccountId(),
@@ -262,6 +266,22 @@ public class AppConsole {
         System.out.print("↩ Retourner au menu principal ? (Y) : ");
         String inputsolo = new Scanner(System.in).nextLine();
 
+    }
+
+    public void RetraitArgent() {
+        System.out.println("==========================================");
+        System.out.println("==============RETRAIT D'ARGENT==============");
+        System.out.println("==========================================");
+        Boolean sub;
+        do {
+
+            System.out.println("entrer le numero du compte :");
+            String inputAccount = new Scanner(System.in).nextLine();
+            System.out.println("entrer amount:");
+            BigDecimal inputamount = new Scanner(System.in).nextBigDecimal();
+            sub = this.accountService.subMoney(inputAccount, inputamount);
+        }
+        while (sub == false);
 
 
     }

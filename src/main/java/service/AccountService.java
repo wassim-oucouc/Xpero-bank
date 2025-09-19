@@ -41,6 +41,17 @@ public class AccountService {
         this.accountRepository.addMoney(account_id,amount);
     }
 
+    public Boolean subMoney(String account_id,BigDecimal amount)
+    {
+        BigDecimal soldeCheck =  this.accountRepository.GetBalanceAccountById(account_id);
+        if(soldeCheck.compareTo(amount) < 0)
+        {
+            return false;
+        }
+        this.accountRepository.subMoney(account_id,amount);
+        return true;
+    }
+
 
 
 
