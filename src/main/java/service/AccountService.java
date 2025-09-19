@@ -36,6 +36,11 @@ public class AccountService {
         return "account is not equal zero";
     }
 
+    public void addMoney(String account_id,BigDecimal amount)
+    {
+        this.accountRepository.addMoney(account_id,amount);
+    }
+
 
 
 

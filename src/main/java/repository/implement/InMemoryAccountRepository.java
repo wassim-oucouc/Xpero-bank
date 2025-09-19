@@ -22,14 +22,14 @@ public class InMemoryAccountRepository  implements AccountRepository {
     }
 
     public List<Account> getAccounts(UUID user_id) {
-        return this.accounts.stream().filter(a -> a.getOwnerUserId() == user_id).toList();
+        return this.accounts.stream().filter(a -> a.getOwnerUserId() == user_id && a.getActive() == true).toList();
 
     }
 
     public void addMoney(String account_id, BigDecimal amount) {
         for (Account account : accounts) {
-            if (account.getAccountId() == account_id) {
-                account.setBalance(amount);
+            if (Objects.equals(account.getAccountId(), account_id)) {
+                account.addBalance(amount);
             }
         }
     }

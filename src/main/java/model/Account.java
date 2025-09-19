@@ -40,6 +40,10 @@ public class Account {
     public UUID getOwnerUserId() {
         return ownerUserId;
     }
+    public void addBalance(BigDecimal amount)
+    {
+        this.balance.add(amount);
+    }
 
     public void setOwnerUserId(UUID ownerUserId) {
         this.ownerUserId = ownerUserId;

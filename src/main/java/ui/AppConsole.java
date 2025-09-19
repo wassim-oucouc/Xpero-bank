@@ -10,6 +10,7 @@ import service.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -149,13 +150,17 @@ public class AppConsole {
                     this.listAccounts(userLogged.getId());
                     break;
                 case 3:
-
+                    this.depotArgent();
                 case 6:
                     this.getTransactionsHistory(userLogged.getId());
                     break;
                 case 7:
                     this.updateProfile(userLogged.getEmail());
                     break;
+                case 9 :
+                    this.closeAccount();
+                    break;
+
                 case 10:
                     this.run();
                     this.sessionService.destroySession();
@@ -202,7 +207,12 @@ public class AppConsole {
             System.out.println("entrer numéro compte :");
             inputCompte = new Scanner(System.in).nextLine();
             this.accountService.closeAccount(inputCompte);
-        } while (this.accountService.closeAccount(inputCompte))
+            System.out.println( this.accountService.closeAccount(inputCompte));
+            if(Objects.equals(this.accountService.closeAccount(inputCompte), "account is not equal zero"))
+            {
+                System.out.println("Your Account is not equal Zero");
+            }
+        } while (Objects.equals(this.accountService.closeAccount(inputCompte), "account is not equal zero"));
     }
 
     public void updateProfile(String email) {
@@ -237,8 +247,22 @@ public class AppConsole {
 
     }
 
-    public void depotArgent(String accountId, BigDecimal amount)
+    public void depotArgent()
     {
+        System.out.println("==========================================");
+        System.out.println("==============DEPOT D'ARGENT==============");
+        System.out.println("==========================================");
+
+        System.out.println("entrer le numero du compte :");
+        String inputAccount = new Scanner(System.in).nextLine();
+        System.out.println("entrer amount:");
+        BigDecimal inputamount = new Scanner(System.in).nextBigDecimal();
+        this.accountService.addMoney(inputAccount,inputamount);
+        System.out.println("Argent Ajoutée au compte success");
+        System.out.print("↩ Retourner au menu principal ? (Y) : ");
+        String inputsolo = new Scanner(System.in).nextLine();
+
+
 
     }
 
