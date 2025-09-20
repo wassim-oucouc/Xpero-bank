@@ -15,6 +15,7 @@ private LocalDateTime Instant;
 private  String accountId;
 private UUID user_id;
 private BigDecimal amount;
+private String type;
 
 
     public UUID getId() {
@@ -37,12 +38,13 @@ private BigDecimal amount;
         return accountId;
     }
 
-    private Transaction(LocalDateTime Instant, String accountId, UUID userId, BigDecimal amount)
+    public Transaction(String accountId, UUID userId, BigDecimal amount, String type)
 {
     user_id = userId;
     this.amount = amount;
+    this.type = type;
     this.id = UUID.randomUUID();
-    this.Instant = Instant;
+    this.Instant = LocalDateTime.now();
     this.accountId = accountId;
 }
 

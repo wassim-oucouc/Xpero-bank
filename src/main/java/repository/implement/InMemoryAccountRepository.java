@@ -62,4 +62,15 @@ public class InMemoryAccountRepository  implements AccountRepository {
             }
         }
     }
+
+    public Boolean checkAccountExists(String account_id)
+    {
+       List<Account>  account =  accounts.stream().filter(a -> Objects.equals(a.getAccountId(), account_id)).toList();
+
+       if(account.isEmpty())
+       {
+           return false;
+       }
+       return true;
+    }
 }

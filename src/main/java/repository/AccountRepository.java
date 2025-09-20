@@ -14,6 +14,7 @@ public interface AccountRepository {
     public void closeAccount(String account_id);
     public BigDecimal GetBalanceAccountById(String account_id);
     public void subMoney(String account_id,BigDecimal amount);
+    public Boolean checkAccountExists(String account_id);
 
 
 }

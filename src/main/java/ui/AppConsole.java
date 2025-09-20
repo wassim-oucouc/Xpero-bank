@@ -150,7 +150,7 @@ public class AppConsole {
                     this.listAccounts(userLogged.getId());
                     break;
                 case 3:
-                    this.depotArgent();
+                    this.depotArgent(userLogged.getId());
                     break;
                 case 4 :
                     this.RetraitArgent();
@@ -251,7 +251,7 @@ public class AppConsole {
 
     }
 
-    public void depotArgent()
+    public void depotArgent(UUID user_id)
     {
         System.out.println("==========================================");
         System.out.println("==============DEPOT D'ARGENT==============");
@@ -262,28 +262,87 @@ public class AppConsole {
         System.out.println("entrer amount:");
         BigDecimal inputamount = new Scanner(System.in).nextBigDecimal();
         this.accountService.addMoney(inputAccount,inputamount);
+        Transaction transaction = new Transaction(inputAccount,user_id,inputamount,"Depot");
+        this.transactionService.createTransaction(transaction);
         System.out.println("Argent Ajoutée au compte success");
         System.out.print("↩ Retourner au menu principal ? (Y) : ");
         String inputsolo = new Scanner(System.in).nextLine();
 
     }
 
-    public void RetraitArgent() {
+    public void RetraitArgent(UUID user_id) {
         System.out.println("==========================================");
         System.out.println("==============RETRAIT D'ARGENT==============");
         System.out.println("==========================================");
         Boolean sub;
+        String inputAccount;
+        BigDecimal inputamount;
         do {
 
             System.out.println("entrer le numero du compte :");
-            String inputAccount = new Scanner(System.in).nextLine();
+            inputAccount = new Scanner(System.in).nextLine();
             System.out.println("entrer amount:");
-            BigDecimal inputamount = new Scanner(System.in).nextBigDecimal();
+            inputamount = new Scanner(System.in).nextBigDecimal();
             sub = this.accountService.subMoney(inputAccount, inputamount);
         }
         while (sub == false);
+        Transaction transaction = new Transaction(inputAccount, user_id, inputamount, "Retrait");
+        this.transactionService.createTransaction(transaction);
 
 
+    }
+
+    public void virement() {
+        System.out.println("==========================================");
+        System.out.println("           VIREMENT   ");
+        System.out.println("==========================================");
+
+        System.out.println("1 : TransferIn");
+        System.out.println("2 : TransferOut");
+        int inputChoix = new Scanner(System.in).nextInt();
+        switch (inputChoix) {
+            case 1:
+                System.out.println("Entrer votre compte debité :");
+                String inputExpediteur = new Scanner(System.in).nextLine();
+                System.out.println("Entrer compte Recevoir :");
+                boolean accountCheck;
+                do {
+                    String inputDestinataire = new Scanner(System.in).nextLine();
+                    accountCheck = this.accountService.checkAccountExists(inputDestinataire);
+                    if (accountCheck) {
+                        System.out.println("Entrer montant :");
+                        BigDecimal inputMontant = new Scanner(System.in).nextBigDecimal();
+                        Boolean check = this.accountService.checkBalanceSender(inputExpediteur, inputMontant);
+                        if (check == true) {
+                            this.accountService.addMoney(inputDestinataire, inputMontant);
+                            this.accountService.subMoney(inputExpediteur, inputMontant);
+                            Transaction transaction
+                            this.transactionService.createTransaction()
+                        }
+                    } else {
+                        System.out.println("le compte recevoir n'existe pas!");
+                    }
+                }
+                while (accountCheck);
+                break;
+            case 2:
+                System.out.println("Entrer votre compte debité :");
+                 inputExpediteur = new Scanner(System.in).nextLine();
+                System.out.println("Entrer compte destinataire :");
+                String inputDestinataire = new Scanner(System.in).nextLine();
+                 accountCheck = this.accountService.checkAccountExists(inputDestinataire);
+                if (accountCheck) {
+                    System.out.println("Entrer montant :");
+                    BigDecimal inputMontant = new Scanner(System.in).nextBigDecimal();
+                    Boolean check = this.accountService.checkBalanceSender(inputExpediteur, inputMontant);
+                    if (check == true) {
+                        this.accountService.addMoney(inputDestinataire, inputMontant);
+                        this.accountService.subMoney(inputExpediteur, inputMontant);
+                    }
+                }
+
+
+        }
     }
 
     public void getTransactionsHistory(UUID user_id) {

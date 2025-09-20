@@ -52,6 +52,21 @@ public class AccountService {
         return true;
     }
 
+    public Boolean checkAccountExists(String account_id)
+    {
+        return this.accountRepository.checkAccountExists(account_id);
+    }
+
+    public Boolean checkBalanceSender(String account_id,BigDecimal amount)
+    {
+        BigDecimal soldeCheck =  this.accountRepository.GetBalanceAccountById(account_id);
+        if(soldeCheck.compareTo(amount) < 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
 
 
 
